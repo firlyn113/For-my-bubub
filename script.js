@@ -237,24 +237,33 @@
   function openEnvelope() {
     if (envelope.classList.contains('is-open')) return;
 
+    // 1. Envelope lifts slightly, acknowledging the click.
     envelope.classList.add('is-scaleUp');
 
+    // 2. Heart seal glows, as if warming up to break open.
     setTimeout(() => {
       envelope.classList.add('is-sealGlow');
-    }, 250);
+    }, 220);
 
+    // 3. Flap swings open and the paper begins fading/sliding into view
+    //    (paper transition has its own .45s delay baked into the CSS so it
+    //    emerges just after the flap starts moving, not before).
     setTimeout(() => {
       envelope.classList.add('is-open');
-    }, 650);
+    }, 600);
 
+    // 4. Let the paper fully settle as the visual focus for a beat before
+    //    the envelope shell dissolves around it (paper itself is excluded
+    //    from this fade, see .envelope.is-fading .envelope-paper in CSS).
     setTimeout(() => {
       document.getElementById('scene3').classList.add('is-blurring');
       envelope.classList.add('is-fading');
-    }, 1800);
+    }, 2100);
 
+    // 5. Cut to the letter scene once the shell has faded away.
     setTimeout(() => {
       goToLetter();
-    }, 2500);
+    }, 3000);
   }
 
   function goToLetter() {
@@ -275,7 +284,12 @@
     });
 
     backBtn.disabled = state.currentPage === 1;
-    nextBtn.style.visibility = state.currentPage === state.totalPages ? 'hidden' : 'visible';
+    // Pages 3 & 4 progress only through their own dedicated buttons
+    // ("Serius masih ada?" / "Open The Last Page" / "One More Thing..."),
+    // so the generic Next control is fully removed there rather than just
+    // hidden, which is what was causing it to still show on page 4.
+    const hideNext = state.currentPage === 3 || state.currentPage === 4;
+    nextBtn.classList.toggle('is-hidden', hideNext);
 
     // scroll letter body back to top on page change
     const letterBody = document.getElementById('letterBody');
@@ -398,6 +412,13 @@
     finalStage.querySelectorAll('.is-shown').forEach((el) => el.classList.remove('is-shown'));
 
     introScene.classList.remove('is-warm');
+
+    // The intro button (and the "Hey..." line) keep the 'is-visible' class
+    // from the previous run since runIntroSequence only ever adds it — on
+    // replay this made the button appear instantly instead of waiting for
+    // the full cinematic sequence. Reset both before starting over.
+    introBtn.classList.remove('is-visible');
+    introLine.classList.remove('is-visible');
 
     showScene(1);
     setTimeout(runIntroSequence, 400);

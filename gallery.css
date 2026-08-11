@@ -1,0 +1,234 @@
+/* =========================================================
+   GALLERY TOKENS
+   (Deliberately duplicated from style.css rather than shared,
+   so this page — and its 20 photos — can be edited on its own.)
+========================================================= */
+:root{
+  --soft-pink: #f7c9d6;
+  --dusty-rose: #d98ea3;
+  --cream: #fbf3ec;
+  --burgundy: #6e1f34;
+  --burgundy-deep: #3a0f1c;
+  --white: #ffffff;
+  --gold: #d8ad5f;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-script: 'Dancing Script', cursive;
+
+  --ease: cubic-bezier(.22,.68,.32,1);
+  --ease-soft: cubic-bezier(.4,.0,.2,1);
+}
+
+*{ box-sizing:border-box; }
+html,body{
+  margin:0; padding:0; height:100%;
+  background: linear-gradient(160deg, var(--soft-pink) 0%, var(--cream) 55%, var(--white) 100%);
+  font-family: var(--font-body);
+  color: var(--burgundy-deep);
+  overflow-x:hidden;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .photo-column{ animation-play-state: paused !important; }
+}
+
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.035; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+.gallery-topbar{
+  position:relative;
+  z-index: 10;
+  padding: 22px clamp(16px, 5vw, 48px) 14px;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  gap: 6px;
+  background: linear-gradient(180deg, rgba(251,243,236,.92), rgba(251,243,236,0));
+}
+.back-link{
+  align-self:flex-start;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--dusty-rose);
+  text-decoration:none;
+  padding: 6px 4px;
+  transition: color .25s var(--ease);
+}
+.back-link:hover{ color: var(--burgundy); }
+.gallery-title{ margin-top: 2px; }
+.eyebrow{
+  display:block;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--dusty-rose);
+  margin-bottom: 4px;
+}
+.gallery-title h1{
+  margin:0;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  color: var(--burgundy);
+  text-shadow: 0 0 20px rgba(217,142,163,.4);
+}
+
+/* =========================================================
+   GALLERY STAGE — auto-scrolling downward photo collage
+========================================================= */
+.gallery-stage{
+  position:relative;
+  z-index: 5;
+  display:flex;
+  gap: clamp(10px, 2vw, 18px);
+  padding: 6px clamp(8px, 3vw, 24px) 120px;
+  height: calc(100vh - 128px);
+  min-height: 420px;
+  overflow:hidden;
+  /* Fade top and bottom edges for seamless visual loop */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+}
+
+.photo-column{
+  flex: 1 1 0;
+  display:flex;
+  flex-direction: column;
+  gap: clamp(10px, 2vw, 18px);
+  will-change: transform;
+  /* animation-duration is set inline per column by gallery.js so the
+     scroll speed can vary slightly from column to column */
+  animation-name: scrollDown;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Moves the column from -50% up to 0 — since each column's photo list is
+   rendered twice back to back, this produces a perfectly seamless,
+   never-ending downward scroll (the loop point is invisible). */
+@keyframes scrollDown{
+  from{ transform: translateY(-50%); }
+  to{ transform: translateY(0%); }
+}
+
+/* =========================================================
+   PHOTO FRAME — 1:1 ratio with varying sizes
+========================================================= */
+.photo-frame{
+  position:relative;
+  width:100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow:hidden;
+  background: var(--white);
+  padding: 6px;
+  box-shadow: 0 10px 24px rgba(110,31,52,.18);
+  border: 1px solid rgba(255,255,255,.6);
+  flex-shrink: 0; /* Prevent flex from squishing frames */
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+/* Slightly different sizes — subtle variation keeps it interesting */
+.photo-frame.size-sm{
+  width: 88%;
+  align-self: center;
+}
+.photo-frame.size-md{
+  width: 100%;
+}
+.photo-frame.size-lg{
+  width: 94%;
+  align-self: center;
+}
+
+.photo-frame:hover{
+  transform: scale(1.03);
+  box-shadow: 0 14px 32px rgba(110,31,52,.28);
+  z-index: 3;
+}
+
+.photo-frame img{
+  width:100%; height:100%;
+  object-fit: cover;
+  border-radius: 9px;
+  display:block;
+  background: linear-gradient(150deg, var(--soft-pink), var(--cream));
+}
+.photo-frame .photo-fallback{
+  position:absolute; inset: 6px;
+  border-radius: 9px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(150deg, var(--soft-pink), var(--cream));
+  color: var(--dusty-rose);
+  font-size: 1.4rem;
+}
+
+/* =========================================================
+   DOWNLOAD BUTTON
+========================================================= */
+.download-btn{
+  position:fixed;
+  right: clamp(14px, 4vw, 28px);
+  bottom: clamp(14px, 4vw, 28px);
+  z-index: 100;
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  border:none;
+  cursor:pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: .92rem;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--dusty-rose), var(--burgundy));
+  box-shadow: 0 10px 28px rgba(110,31,52,.35);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), opacity .2s var(--ease);
+}
+.download-btn:hover{ transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 34px rgba(110,31,52,.42); }
+.download-btn:active{ transform: scale(.96); }
+.download-btn:disabled{ opacity:.65; cursor: progress; transform:none; }
+.download-icon{ font-size: 1rem; }
+
+/* =========================================================
+   TOAST (feedback for download success / failure)
+========================================================= */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom: 92px;
+  transform: translate(-50%, 12px);
+  z-index: 200;
+  background: var(--burgundy);
+  color: var(--cream);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: .85rem;
+  max-width: min(360px, 84vw);
+  text-align:center;
+  box-shadow: 0 14px 30px rgba(0,0,0,.25);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .35s var(--ease-soft), transform .35s var(--ease-soft);
+}
+.toast.is-visible{ opacity:1; transform: translate(-50%, 0); }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 720px){
+  .gallery-stage{ gap: 8px; }
+}
+@media (max-width: 480px){
+  .gallery-topbar{ padding: 16px 14px 10px; }
+  .download-btn{ padding: 11px 18px; font-size: .85rem; }
+}
