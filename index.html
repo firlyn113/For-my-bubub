@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>A Little Birthday Letter For My Bubub ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient background layers (stars / hearts / sparkles injected by JS) -->
+  <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-sparkle" id="cursorSparkle" aria-hidden="true"></div>
+
+  <!-- Music toggle -->
+  <button class="music-btn" id="musicBtn" aria-label="Nyalakan atau matikan musik">
+    <span id="musicIcon">🎵</span>
+  </button>
+  <audio id="bgMusic" loop preload="none">
+    <source src="romantic.mp3" type="audio/mpeg" />
+  </audio>
+
+  <main id="app">
+
+    <!-- ================= SCENE 1 — CINEMATIC OPENING ================= -->
+    <section class="scene scene-intro is-active" id="scene1" data-scene="1">
+      <div class="intro-stars" id="introStars" aria-hidden="true"></div>
+      <div class="intro-text-wrap">
+        <p class="intro-line" id="introLine">Hey...</p>
+      </div>
+      <button class="btn btn-ghost intro-btn" id="openSurpriseBtn" aria-label="Buka kejutan kecilku">
+        Open My Little Surprise ❤️
+      </button>
+    </section>
+
+    <!-- ================= SCENE 2 — WELCOME ================= -->
+    <section class="scene scene-welcome" id="scene2" data-scene="2">
+      <div class="floaters" id="welcomeFloaters" aria-hidden="true"></div>
+      <div class="welcome-content">
+        <h1 class="script-heading">Happy Birthday, Bububku ❤️</h1>
+        <p class="sub-text fade-item">Aa punya sedikit sesuatu buat kamu...</p>
+        <p class="sub-text fade-item">Jangan buru-buru pergi yaa.</p>
+        <button class="btn btn-primary" id="letsOpenBtn">Let's Open It 💌</button>
+      </div>
+    </section>
+
+    <!-- ================= SCENE 3 — THE ENVELOPE ================= -->
+    <section class="scene scene-envelope" id="scene3" data-scene="3">
+      <div class="floaters" id="envelopeFloaters" aria-hidden="true"></div>
+
+      <p class="envelope-caption top">There's something I wrote for you...</p>
+
+      <div class="envelope-stage">
+        <button class="envelope" id="envelope" aria-label="Klik untuk membuka surat">
+          <span class="envelope-shadow"></span>
+          <span class="envelope-back"></span>
+          <span class="envelope-paper" id="envelopePaper"></span>
+          <span class="envelope-flap"></span>
+          <span class="envelope-front-left"></span>
+          <span class="envelope-front-right"></span>
+          <span class="envelope-seal">❤</span>
+        </button>
+      </div>
+
+      <p class="envelope-caption bottom">Click the letter 💌</p>
+    </section>
+
+    <!-- ================= SCENE 4 — THE LETTER ================= -->
+    <section class="scene scene-letter" id="scene4" data-scene="4">
+      <div class="letter-floaters" id="letterFloaters" aria-hidden="true"></div>
+
+      <div class="letter-card" id="letterCard">
+        <div class="letter-header">
+          <span>To: My Favorite Person ❤️</span>
+          <span>From: Aa</span>
+        </div>
+
+        <div class="letter-body" id="letterBody">
+
+          <!-- PAGE 1 -->
+          <div class="letter-page is-active" data-page="1">
+            <p class="letter-line dancing-lg">Ini buat kamu ya cantikk,<br />tolong dibaca ❤️</p>
+            <p class="letter-note">Pelan-pelan bacanya yaa...</p>
+          </div>
+
+          <!-- PAGE 2 -->
+          <div class="letter-page" data-page="2">
+            <h2 class="letter-title">Happy Birthday, Sayangkuuu ❤️</h2>
+            <div class="letter-paragraphs">
+              <p>Selamat ulang tahun yaa sayangkuuu.</p>
+              <p>Di hari spesial kamu ini, aa cuma mau berharap semoga semua hal baik selalu datang ke kamu. Semoga kamu selalu diberikan kesehatan, kebahagiaan, dimudahkan dalam setiap langkah, dan semua impian yang kamu punya bisa satu per satu terwujud.</p>
+              <p>Aa bersyukur banget bisa kenal sama kamu. Terima kasih karena sudah hadir di hidup aa, sudah menjadi seseorang yang bisa membuat hari-hari aa terasa lebih berwarna.</p>
+              <p>Semoga di umur kamu yang baru ini, kamu semakin bahagia, semakin kuat, semakin cantik, dan tentunya semakin sayang sama aa hehe.</p>
+              <p>Kalau suatu hari kamu merasa capek, sedih, atau dunia terasa terlalu berat, jangan lupa kalau ada aa yang selalu mau dengerin kamu dan nemenin kamu.</p>
+              <p class="emphasis">Pokoknya...<br />Jangan lupa bahagia yaa cantikk.</p>
+              <p class="emphasis-strong">Happy Birthday, my favorite girl. ❤️🎂</p>
+            </div>
+          </div>
+
+          <!-- PAGE 3 -->
+          <div class="letter-page" data-page="3">
+            <div class="playful-stage" id="playfulStage">
+              <p class="playful-line" data-order="1">Eitssss... 😳</p>
+              <p class="playful-line" data-order="2">Tunggu duluuu...</p>
+              <p class="playful-line" data-order="3">Jangan ditutup dulu suratnyaaa...</p>
+              <p class="playful-line" data-order="4">Ada lagi nihhhh..... 👀❤️</p>
+              <button class="btn btn-secondary playful-btn" id="stillThereBtn" data-order="5">Serius masih ada? 👀</button>
+              <div class="playful-reveal" id="playfulReveal">
+                <p class="playful-line-final">Okayyy...</p>
+                <p class="playful-line-final">Last one, promise. ❤️</p>
+                <button class="btn btn-primary" id="openLastPageBtn">Open The Last Page 💌</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAGE 4 -->
+          <div class="letter-page letter-page-final" data-page="4">
+            <div class="final-stage" id="finalStage">
+              <p class="final-word" data-order="1">I...</p>
+              <p class="final-word" data-order="2">Love...</p>
+              <p class="final-word" data-order="3">Youuu...</p>
+              <p class="final-word" data-order="4">Moreee...</p>
+              <h2 class="final-headline" data-order="5">❤️ I Love Youuu Moreee ❤️</h2>
+              <p class="final-sub dancing-lg" data-order="6">Sayangkuuu Copiiii &lt;3</p>
+              <p class="final-signature" data-order="7">dari aa tercinta</p>
+              <button class="btn btn-ghost final-more-btn" id="oneMoreThingBtn" data-order="8">One More Thing... 👀</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="letter-footer">
+          <div class="progress-dots" id="progressDots" aria-hidden="true">
+            <span class="dot is-active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <div class="letter-nav">
+            <button class="btn btn-text" id="backBtn">← Back</button>
+            <button class="btn btn-text" id="nextBtn">Next →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FINAL SURPRISE MODAL ================= -->
+  <div class="modal-overlay" id="finalModal">
+    <div class="modal-card">
+      <p class="modal-line">Thank you for being my favorite person. ❤️</p>
+      <p class="modal-line">Semoga kita selalu punya banyak cerita untuk diceritakan bersama.</p>
+      <p class="modal-line">I love you, always. ❤️</p>
+      <button class="btn btn-primary" id="replayBtn">Replay Our Little Story ↻</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
